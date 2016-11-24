@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    tools:context=".MainActivity">
+
+    <item android:title="Profil"
+        android:id="@+id/menu_profil"
+        app:showAsAction="ifRoom"/>
+    <item android:title="Forum"
+        android:id="@+id/menu_forum"
+        app:showAsAction="ifRoom"/>
+    <item android:title="Logout"
+        android:id="@+id/menu_logout" />
+</menu>

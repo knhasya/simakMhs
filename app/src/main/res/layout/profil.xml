@@ -1,0 +1,348 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/activity_main2"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="com.galihpw.simakmhs.ProfileMhs">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
+
+        <TextView
+            android:text="Galih Praja Wijaya"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/tvNama"
+            android:textSize="38sp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginStart="20dp"
+            android:layout_centerVertical="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
+
+        <TextView
+            android:text="1301658"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/tvNim"
+            android:textSize="25sp"
+            android:layout_marginTop="20dp"
+            android:layout_below="@+id/tvNama"
+            android:layout_alignLeft="@+id/tvNama"
+            android:layout_alignStart="@+id/tvNama" />
+
+        <TextView
+        android:text=" | "
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tvBatas"
+        android:textSize="25sp"
+        android:layout_marginTop="20dp"
+        android:layout_below="@+id/tvNama"
+        android:layout_toRightOf="@+id/tvNim"
+        android:layout_toEndOf="@+id/tvNim" />
+
+        <TextView
+            android:text="C2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/tvKelas"
+            android:textSize="25sp"
+            android:layout_marginTop="20dp"
+            android:layout_below="@+id/tvNama"
+            android:layout_toRightOf="@+id/tvBatas"
+            android:layout_toEndOf="@+id/tvBatas" />
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="22dp"
+            android:layout_marginEnd="22dp"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true">
+
+            <TextView
+                android:text="3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/tvBintang"
+                android:textSize="45sp"
+                android:layout_alignBottom="@+id/imageView9"
+                android:layout_toRightOf="@+id/imageView9" />
+
+            <ImageView
+                android:layout_width="50dp"
+                app:srcCompat="@android:drawable/star_big_on"
+                android:id="@+id/imageView9"
+                android:layout_height="50dp" />
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/imgProfile"
+        android:layout_width="280dp"
+        android:layout_height="280dp"
+        android:src="@drawable/foto"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="40dp" />
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/imgProfile"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:id="@+id/linearLayout2">
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="10dp">
+
+            <ImageView
+                android:layout_height="wrap_content"
+                app:srcCompat="@drawable/ic_home"
+                android:id="@+id/imageView8"
+                android:layout_weight="1"
+                android:layout_width="100dp" />
+
+            <ViewSwitcher
+                android:id="@+id/alamat"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentTop="true"
+                android:inAnimation="@android:anim/slide_in_left"
+                android:layout_weight="1">
+                <TextView
+                    android:id="@+id/view_alamat"
+                    android:text="Gegerkalong Girang Sukasari Bandung"
+                    android:layout_height="match_parent"
+                    android:textSize="24sp"
+                    android:lines="2"
+                    android:layout_width="350dp"
+                    android:inputType="textMultiLine"/>
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:inputType="text"
+                    android:maxEms="12"
+                    android:id="@+id/edit_alamat"
+                    android:textSize="24sp" />
+            </ViewSwitcher>
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="5dp">
+
+            <ImageView
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                app:srcCompat="@drawable/ic_phone"
+                android:id="@+id/imageView91"
+                android:layout_weight="1" />
+
+            <ViewSwitcher
+                android:id="@+id/noKontak"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentTop="true"
+                android:inAnimation="@android:anim/slide_in_left"
+                android:layout_weight="1">
+                <TextView
+                    android:id="@+id/view_kontak"
+                    android:text="083820110291"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:textSize="24sp" />
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:inputType="number"
+                    android:maxEms="12"
+                    android:id="@+id/edit_kontak"
+                    android:textSize="24sp" />
+            </ViewSwitcher>
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="5dp">
+
+            <ImageView
+                android:layout_height="wrap_content"
+                app:srcCompat="@drawable/ic_email"
+                android:id="@+id/imageView10"
+                android:layout_weight="1"
+                android:layout_width="100dp" />
+
+            <ViewSwitcher
+                android:id="@+id/email"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentTop="true"
+                android:inAnimation="@android:anim/slide_in_left"
+                android:layout_weight="1">
+                <TextView
+                    android:text="galih1995@gmail.com"
+                    android:autoLink="email"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/view_email"
+                    android:textSize="24sp"
+                    android:textColorLink="@android:color/holo_blue_light" />
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:inputType="textEmailAddress"
+                    android:id="@+id/edit_email"
+                    android:textSize="24sp" />
+            </ViewSwitcher>
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="5dp">
+
+            <ImageView
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                app:srcCompat="@drawable/ic_facebook"
+                android:id="@+id/imageView11"
+                android:layout_weight="1" />
+
+            <ViewSwitcher
+                android:id="@+id/facebook"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentTop="true"
+                android:inAnimation="@android:anim/slide_in_left"
+                android:layout_weight="1">
+                <TextView
+                    android:text="facebook.com/watashi.no.tantei"
+                    android:autoLink="web"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/view_facebook"
+                    android:textSize="24sp"
+                    android:linksClickable="true"
+                    android:textColorLink="@android:color/holo_blue_light" />
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:inputType="text"
+                    android:id="@+id/edit_facebook"
+                    android:textSize="24sp"
+                    android:paddingTop="10dp"
+                    android:paddingBottom="10dp" />
+            </ViewSwitcher>
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="5dp">
+
+            <ImageView
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                app:srcCompat="@drawable/ic_twitter"
+                android:id="@+id/imageView12"
+                android:layout_weight="1" />
+
+            <ViewSwitcher
+                android:id="@+id/twitter"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentTop="true"
+                android:inAnimation="@android:anim/slide_in_left"
+                android:layout_weight="1">
+                <TextView
+                    android:text="twitter.com/semut_ulet"
+                    android:autoLink="web"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/view_twitter"
+                    android:textSize="24sp"
+                    android:linksClickable="true"
+                    android:textColorLink="@android:color/holo_blue_light" />
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:inputType="text"
+                    android:id="@+id/edit_twitter"
+                    android:textSize="24sp" />
+            </ViewSwitcher>
+        </LinearLayout>
+    </LinearLayout>
+
+    <ViewSwitcher
+        android:id="@+id/button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inAnimation="@android:anim/fade_in"
+        android:layout_below="@+id/linearLayout2"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginRight="123dp"
+        android:layout_marginEnd="123dp">
+
+        <Button
+            android:text="Edit Profile"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/editProf"
+            android:textSize="18sp"
+            android:layout_below="@+id/linearLayout"
+            android:layout_alignLeft="@+id/linearLayout"
+            android:layout_alignStart="@+id/linearLayout" />
+
+        <Button
+            android:text="Simpan"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/simpProf"
+            android:textSize="18sp" />
+
+    </ViewSwitcher>
+
+</RelativeLayout>

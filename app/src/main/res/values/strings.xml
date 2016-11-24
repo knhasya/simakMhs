@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">SimakMHS</string>
+    <string name="title_activity_forum_activity">ForumActivityActivity</string>
+    <string name="title_activity_forum">Forum</string>
+</resources>
