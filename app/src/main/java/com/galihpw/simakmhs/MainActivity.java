@@ -8,9 +8,13 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -36,8 +40,9 @@ import java.util.Map;
 public class MainActivity extends AppCompatActivity {
 
     CircleImageView imageView2;
-    TextView vNim, vNama, vBintang, tvHariTgl;
-    String sNim, sNama, nim;
+    TextView vNim, vNama, vBintang, tvHariTgl, vMatkul, vKodeMatkul, vDosen;
+    String sNim, sNama, nim, sMatkul, sKodeMatkul, sDosen, dayName, sPertemuan;
+    EditText edResume;
     Integer sBintang;
     Calendar calendar;
 
@@ -45,6 +50,8 @@ public class MainActivity extends AppCompatActivity {
     public final static String EXTRA_MESSAGE = "com.galihpw.simak";
 
     private static String url_gMhs = Config.URL + "getMhs.php";
+    private static String url_gMatkul = Config.URL + "getMatkul.php";
+    private static String url_iResume = Config.URL + "insertResume.php";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +66,10 @@ public class MainActivity extends AppCompatActivity {
         vNim = (TextView) findViewById(R.id.tvNimAM);
         vNama = (TextView) findViewById(R.id.tvNamaAM);
         vBintang = (TextView) findViewById(R.id.tvBintangAM);
+        vMatkul = (TextView) findViewById(R.id.tvNamaMatkulAM);
+        vKodeMatkul = (TextView) findViewById(R.id.tvKodeMatkulAM);
+        vDosen = (TextView) findViewById(R.id.tvNamaDosenAM);
+        edResume = (EditText) findViewById(R.id.edResume);
 
         tvHariTgl = (TextView) findViewById(R.id.tvHariTgl);
         calendar = Calendar.getInstance();
@@ -67,10 +78,43 @@ public class MainActivity extends AppCompatActivity {
 
         SimpleDateFormat adf_ = new SimpleDateFormat("EEEE");
         Date date = new Date();
-        String dayName = adf_.format(date);
+        dayName = adf_.format(date);
+        switch(dayName){
+            case "Monday":
+                dayName = "Senin";
+                break;
+            case "Tuesday":
+                dayName = "Selasa";
+                break;
+            case "Wednesday":
+                dayName = "Rabu";
+                break;
+            case "Thursday":
+                dayName = "Kamis";
+                break;
+            case "Friday":
+                dayName = "Jumat";
+                break;
+            case "Saturday":
+                dayName = "Sabtu";
+                break;
+            case "Sunday":
+                dayName = "Minggu";
+                break;
+        }
         tvHariTgl.setText("" + dayName + ", " + currentDate + "");
 
         getData();
+        getDataMatkul();
+
+        Button saveProf = (Button) findViewById(R.id.btnSubmit);
+        saveProf.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.i("cek", "" + sNim + "," + sKodeMatkul + "," + sPertemuan + "," + edResume.getText().toString());
+                insertResume();
+            }
+        });
 
     }
 
@@ -89,6 +133,11 @@ public class MainActivity extends AppCompatActivity {
                 Intent intent2 = new Intent( this , ProfileMhs.class );
                 intent2.putExtra(EXTRA_MESSAGE,nim);
                 startActivity(intent2);
+
+                return true;
+            case R.id.menu_catatan:
+                Intent intent4 = new Intent( this , Catatan.class );
+                startActivity(intent4);
 
                 return true;
             case R.id.menu_forum:
@@ -176,6 +225,33 @@ public class MainActivity extends AppCompatActivity {
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         requestQueue.add(stringRequest);
     }
+
+    private void getDataMatkul(){
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, url_gMatkul, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                loadingMhs.dismiss();
+                showJSON2(response);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                loadingMhs.dismiss();
+                Toast.makeText(MainActivity.this, error.getMessage().toString(), Toast.LENGTH_SHORT).show();
+            }
+        }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+                params.put(Config.KEY_HARI, dayName);
+                return params;
+            }
+        };
+
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(stringRequest);
+    }
+
     private void showJSON(String response){
         try{
             JSONObject jsonObject = new JSONObject(response);
@@ -192,6 +268,67 @@ public class MainActivity extends AppCompatActivity {
         vNim.setText(sNim);
         vNama.setText(sNama);
         vBintang.setText(sBintang.toString());
+    }
+
+    private void showJSON2(String response){
+        try{
+            JSONObject jsonObject = new JSONObject(response);
+            JSONArray result = jsonObject.getJSONArray(Config.JSON_ARRAY);
+            JSONObject data = result.getJSONObject(0);
+            sMatkul = data.getString(Config.KEY_MATKUL);
+            sKodeMatkul = data.getString(Config.KEY_KODEMATKUL);
+            sDosen = data.getString(Config.KEY_NAMADOSEN);
+            sPertemuan = data.getString(Config.KEY_PERTEMUAN);
+
+        }catch (JSONException e){
+            e.printStackTrace();
+        }
+
+        vMatkul.setText(sMatkul);
+        vKodeMatkul.setText("(" + sKodeMatkul + ")");
+        vDosen.setText(sDosen);
+    }
+
+    private void insertResume(){
+        loadingMhs = ProgressDialog.show(this, "Please wait...", "Updating Data...", false, false);
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, url_iResume, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                try {
+                    JSONObject jObj = new JSONObject(response);
+                    int success = jObj.getInt(Config.SUCCESS);
+                    if (success==1) {
+                        loadingMhs.dismiss();
+                        Toast.makeText(MainActivity.this, "Success", Toast.LENGTH_SHORT).show();
+                    } else {
+                        loadingMhs.dismiss();
+                        Toast.makeText(MainActivity.this, "Data not update", Toast.LENGTH_SHORT).show();
+                    }
+                }catch(JSONException e){
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                loadingMhs.dismiss();
+                Toast.makeText(MainActivity.this, "No connection", Toast.LENGTH_SHORT).show();
+            }
+        }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError{
+                Map<String, String> params = new HashMap<>();
+                params.put(Config.KEY_NIM, sNim);
+                params.put(Config.KEY_KODEMATKUL, sKodeMatkul);
+                params.put(Config.KEY_RESUME, edResume.getText().toString());
+                params.put(Config.KEY_PERTEMUAN, sPertemuan);
+                return params;
+            }
+
+        };
+
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(stringRequest);
     }
 
 }

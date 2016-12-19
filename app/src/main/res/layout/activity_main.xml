@@ -23,7 +23,7 @@
         android:layout_alignParentStart="true">
 
         <TextView
-            android:text="1301658"
+            android:text="Nim"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/tvNimAM"
@@ -33,7 +33,7 @@
             android:layout_alignStart="@+id/tvNamaAM" />
 
         <TextView
-            android:text="Galih Praja Wijaya"
+            android:text="Nama"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="23dp"
@@ -53,7 +53,7 @@
             android:layout_alignStart="@+id/tvNimAM">
 
             <TextView
-                android:text="3"
+                android:text="0"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/tvBintangAM"
@@ -82,10 +82,10 @@
     </RelativeLayout>
 
     <TextView
-        android:text="Mata Kuliah (Kode Matkul)"
+        android:text="(Kode Matkul)"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/textView2"
+        android:id="@+id/tvKodeMatkulAM"
         android:layout_marginRight="12dp"
         android:layout_marginEnd="12dp"
         android:layout_alignParentRight="true"
@@ -97,7 +97,7 @@
         android:layout_height="200dp"
         android:inputType="textMultiLine"
         android:ems="10"
-        android:id="@+id/editText"
+        android:id="@+id/edResume"
         android:background="@drawable/border"
         android:fitsSystemWindows="false"
         android:filterTouchesWhenObscured="false"
@@ -112,18 +112,18 @@
         android:text="Submit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/button2"
+        android:id="@+id/btnSubmit"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
 
     <TextView
-        android:text="Resume"
+        android:text="Catatan"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/textView3"
         android:textSize="20sp"
-        android:layout_above="@+id/editText"
+        android:layout_above="@+id/edResume"
         android:layout_toLeftOf="@+id/imageView4"
         android:layout_toStartOf="@+id/imageView4" />
 
@@ -131,18 +131,18 @@
         android:text="Nama Dosen"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/textView8"
+        android:id="@+id/tvNamaDosenAM"
         android:textSize="16sp"
-        android:layout_below="@+id/textView2"
-        android:layout_alignRight="@+id/textView2"
-        android:layout_alignEnd="@+id/textView2" />
+        android:layout_below="@+id/tvKodeMatkulAM"
+        android:layout_alignRight="@+id/tvKodeMatkulAM"
+        android:layout_alignEnd="@+id/tvKodeMatkulAM" />
 
     <ImageView
         android:layout_width="100dp"
         android:layout_height="100dp"
         app:srcCompat="@drawable/study_icon_7"
         android:id="@+id/imageView4"
-        android:layout_below="@+id/textView8"
+        android:layout_below="@+id/tvNamaDosenAM"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
         android:layout_marginTop="49dp" />
@@ -156,5 +156,15 @@
         android:layout_alignBottom="@+id/textView3"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
+
+    <TextView
+        android:text="Mata Kuliah"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tvNamaMatkulAM"
+        android:textSize="16sp"
+        android:layout_alignParentTop="true"
+        android:layout_toLeftOf="@+id/tvKodeMatkulAM"
+        android:layout_toStartOf="@+id/tvKodeMatkulAM" />
 
 </RelativeLayout>

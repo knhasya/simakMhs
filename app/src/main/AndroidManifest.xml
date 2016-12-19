@@ -36,7 +36,11 @@
             android:screenOrientation="landscape" />
         <activity
             android:name=".ProfileMhs"
-            android:label="Profile Mahasiswa "
+            android:label="Profil Mahasiswa "
+            android:screenOrientation="landscape" />
+        <activity
+            android:name=".Catatan"
+            android:label="Catatan"
             android:screenOrientation="landscape" />
         <activity
             android:name=".ForumActivity"

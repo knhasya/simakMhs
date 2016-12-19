@@ -10,6 +10,9 @@
     <item android:title="Forum"
         android:id="@+id/menu_forum"
         app:showAsAction="ifRoom"/>
+    <item android:title="Catatan"
+        android:id="@+id/menu_catatan"
+        app:showAsAction="ifRoom"/>
     <item android:title="Logout"
         android:id="@+id/menu_logout" />
 </menu>

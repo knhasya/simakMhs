@@ -26,15 +26,15 @@
             android:inputType="number"
             android:ems="10"
             android:id="@+id/un"
-            android:layout_below="@+id/textView8"
-            android:layout_alignLeft="@+id/textView8"
-            android:layout_alignStart="@+id/textView8" />
+            android:layout_below="@+id/tvNamaDosenAM"
+            android:layout_alignLeft="@+id/tvNamaDosenAM"
+            android:layout_alignStart="@+id/tvNamaDosenAM" />
 
         <TextView
             android:text="Username"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/textView8"
+            android:id="@+id/tvNamaDosenAM"
             android:textSize="16sp"
             android:layout_marginLeft="24dp"
             android:layout_marginStart="24dp"

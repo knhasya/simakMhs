@@ -6,8 +6,8 @@ package com.galihpw.simakmhs.config;
 
 public class Config {
     //public static final String URL = "http://simak.pe.hu/";
-    public static final String URL = "http://192.168.8.105/~classroom/";
-    public static final String LOGIN_URL = "http://192.168.8.105/~classroom/loginmhs.php";
+    public static final String URL = "http://simak.pe.hu/";
+    public static final String LOGIN_URL = "http://simak.pe.hu/loginmhs.php";
 
     public static final String KEY_NIM = "nim";
     public static final String KEY_NAMA = "nama_mhs";
@@ -18,6 +18,12 @@ public class Config {
     public static final String KEY_EMAIL = "email_mhs";
     public static final String KEY_FB = "facebook_mhs";
     public static final String KEY_TW = "twitter_mhs";
+    public static final String KEY_MATKUL = "nama_matkul";
+    public static final String KEY_KODEMATKUL = "kode_matkul";
+    public static final String KEY_HARI = "hari";
+    public static final String KEY_NAMADOSEN = "nama_dosen";
+    public static final String KEY_RESUME = "resume";
+    public static final String KEY_PERTEMUAN = "pertemuan";
     public static final String SUCCESS = "success";
 
     public static final String JSON_ARRAY = "result";
