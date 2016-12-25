@@ -63,7 +63,7 @@ public class Adapter extends BaseAdapter {
         return convertView;
     }
 
-    private static class ViewHolder{
+    static class ViewHolder{
         TextView judul;
         TextView deskripsi;
         TextView penanya;

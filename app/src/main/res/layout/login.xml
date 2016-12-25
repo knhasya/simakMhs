@@ -9,7 +9,8 @@
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true"
         android:focusable="true"
-        android:focusableInTouchMode="true">
+        android:focusableInTouchMode="true"
+        android:id="@+id/relativeLayout">
 
         <ImageView
             android:layout_width="80dp"
@@ -65,9 +66,9 @@
         android:fontFamily="sans-serif"
         android:textColor="@android:color/holo_red_light"
         android:textStyle="normal|bold"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="81dp" />
+        android:layout_marginBottom="12dp"
+        android:layout_above="@+id/relativeLayout"
+        android:layout_centerHorizontal="true" />
 
 
 </RelativeLayout>

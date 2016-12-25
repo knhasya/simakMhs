@@ -50,6 +50,10 @@
         <activity
             android:name=".IsiTopik"
             android:label="Topik"/>
+        <activity
+            android:name=".IsiCatatan"
+            android:label="IsiCatatan"
+            android:screenOrientation="landscape" />
     </application>
 
 </manifest>

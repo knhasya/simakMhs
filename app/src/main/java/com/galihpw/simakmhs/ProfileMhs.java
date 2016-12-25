@@ -42,6 +42,8 @@ import java.util.Map;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
+import static com.galihpw.simakmhs.MainActivity.MAIN_MESSAGE;
+
 public class ProfileMhs extends AppCompatActivity {
 
     CircleImageView imgProfile;
@@ -71,7 +73,7 @@ public class ProfileMhs extends AppCompatActivity {
         setContentView(R.layout.profil);
 
         Intent intent = getIntent();
-        nim = intent.getStringExtra(MainActivity.EXTRA_MESSAGE);
+        nim = intent.getStringExtra(MAIN_MESSAGE);
 
         android.support.v7.app.ActionBar actionBar = getSupportActionBar();
         actionBar.setHomeButtonEnabled(true);

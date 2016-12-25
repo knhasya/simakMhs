@@ -109,13 +109,23 @@
         android:layout_alignParentEnd="true" />
 
     <Button
-        android:text="Submit"
+        android:text="Simpan"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/btnSubmit"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
+
+    <Button
+        android:text="Perbaharui"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/btnPerbaharui"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:visibility="invisible" />
 
     <TextView
         android:text="Catatan"
