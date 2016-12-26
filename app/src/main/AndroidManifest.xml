@@ -43,16 +43,16 @@
             android:label="Catatan"
             android:screenOrientation="landscape" />
         <activity
-            android:name=".ForumActivity"
-            android:label="@string/title_activity_forum"
-            android:screenOrientation="landscape"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name=".IsiTopik"
-            android:label="Topik"/>
-        <activity
             android:name=".IsiCatatan"
-            android:label="IsiCatatan"
+            android:label="Isi Catatan"
+            android:screenOrientation="landscape" />
+        <activity
+            android:name=".Forum"
+            android:label="Forum"
+            android:screenOrientation="landscape" />
+        <activity
+            android:name=".IsiForum"
+            android:label="Isi Forum"
             android:screenOrientation="landscape" />
     </application>
 

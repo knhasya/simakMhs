@@ -4,9 +4,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     tools:context=".MainActivity">
 
-    <item android:title="Home"
-        android:id="@+id/forum_home"
+    <item android:title="Tambah Topik"
+        android:id="@+id/tambah_topik"
         app:showAsAction="ifRoom"/>
-    <item android:title="Logout"
-        android:id="@+id/forum_logout" />
 </menu>

@@ -1,45 +1,34 @@
 package com.galihpw.simakmhs;
 
 /**
- * Created by ACER on 17/09/2016.
+ * Created by Nada on 12/26/2016.
  */
+
 public class Topik {
-    private String judul;
-    private String deskripsi;
-    private String penanya;
 
+    private String judulForum;
+    private String isiForum;
 
-    public Topik(){
-
+    public String getJudulForum() {
+        return judulForum;
     }
 
-    public Topik(String judul, String deskripsi, String penanya){
-        this.judul = judul;
-        this.deskripsi = deskripsi;
-        this.penanya = penanya;
+    public void setJudulForum(String judulForum) {
+        this.judulForum = judulForum;
     }
 
-    public String getJudul() {
-        return judul;
+    public String getIsiForum() {
+        return isiForum;
     }
 
-    public void setJudul(String judul) {
-        this.judul = judul;
+    public void setIsiForum(String isiForum) {
+        this.isiForum = isiForum;
     }
 
-    public String getDeskripsi() {
-        return deskripsi;
+    public Topik(String judulForum, String isiForum){
+        this.judulForum = judulForum;
+        this.isiForum = isiForum;
     }
 
-    public void setDeskripsi(String deskripsi) {
-        this.deskripsi = deskripsi;
-    }
 
-    public String getPenanya() {
-        return penanya;
-    }
-
-    public void setPenanya(String penanya) {
-        this.penanya = penanya;
-    }
 }

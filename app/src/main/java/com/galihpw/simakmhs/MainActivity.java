@@ -13,14 +13,10 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.ViewSwitcher;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -29,7 +25,6 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.galihpw.simakmhs.adapter.Adapter;
 import com.galihpw.simakmhs.config.Config;
 
 import org.json.JSONArray;
@@ -37,11 +32,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Locale;
 import java.util.Map;
 
 import static com.galihpw.simakmhs.LoginActivity.LOGIN_MESSAGE;
@@ -177,10 +170,13 @@ public class MainActivity extends AppCompatActivity {
 
                 return true;
             case R.id.menu_forum:
-                Intent intent3 = new Intent( this , ForumActivity.class );
+                Intent intent3 = new Intent( this , Forum.class );
+                intent3.putExtra(MAIN_MESSAGE1,sMatkul);
+                intent3.putExtra(MAIN_MESSAGE2,sKodeMatkul);
+                intent3.putExtra(MAIN_MESSAGE3,sDosen);
+                intent3.putExtra(MAIN_MESSAGE, nim);
                 startActivity(intent3);
 
-                finish();
                 return true;
             case R.id.menu_logout:
                 logout();

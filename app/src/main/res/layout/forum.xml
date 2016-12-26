@@ -1,34 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
-    tools:context="com.galihpw.simakmhs.ForumActivity">
+    android:layout_height="match_parent">
 
-    <android.support.design.widget.AppBarLayout
-        android:layout_width="match_parent"
+    <TextView
+        android:text="Mata Kuliah"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:theme="@style/AppTheme.AppBarOverlay">
+        android:layout_marginLeft="52dp"
+        android:layout_marginStart="52dp"
+        android:layout_marginTop="35dp"
+        android:id="@+id/tvMatkulForum"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"
-            app:popupTheme="@style/AppTheme.PopupOverlay" />
+    <TextView
+        android:text="Nama Dosen"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tvNamaDosenForum"
+        android:layout_below="@+id/tvMatkulForum"
+        android:layout_alignLeft="@+id/tvMatkulForum"
+        android:layout_alignStart="@+id/tvMatkulForum" />
 
-    </android.support.design.widget.AppBarLayout>
+    <TextView
+        android:text="Hari, Tanggal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tvHariTglForum"
+        android:layout_marginRight="58dp"
+        android:layout_marginEnd="58dp"
+        android:layout_alignBaseline="@+id/tvKodeMatkulForum"
+        android:layout_alignBottom="@+id/tvKodeMatkulForum"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
 
-    <include layout="@layout/content_forum" />
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/tvNamaDosenForum"
+        android:layout_marginTop="22dp"
+        android:layout_alignLeft="@+id/tvNamaDosenForum"
+        android:layout_alignStart="@+id/tvNamaDosenForum"
+        android:layout_alignRight="@+id/tvHariTglForum"
+        android:layout_alignEnd="@+id/tvHariTglForum"
+        android:layout_marginBottom="15dp"
+        android:id="@+id/listviewForum" />
 
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fab"
-        android:layout_width="65dp"
-        android:layout_height="62dp"
-        android:layout_gravity="bottom|end"
-        android:layout_margin="@dimen/fab_margin"
-        app:srcCompat="@android:drawable/ic_input_add" />
+    <TextView
+        android:text="(Kode Mata Kuliah)"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tvKodeMatkulForum"
+        android:layout_above="@+id/tvNamaDosenForum"
+        android:layout_toRightOf="@+id/tvMatkulForum"
+        android:layout_toEndOf="@+id/tvMatkulForum" />
 
-</android.support.design.widget.CoordinatorLayout>
+</RelativeLayout>

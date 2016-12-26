@@ -24,6 +24,8 @@ public class Config {
     public static final String KEY_NAMADOSEN = "nama_dosen";
     public static final String KEY_RESUME = "resume";
     public static final String KEY_PERTEMUAN = "pertemuan";
+    public static final String KEY_JUDUL = "judul";
+    public static final String KEY_ISITOPIK = "isi_topik";
     public static final String KEY_WAKTUMULAI = "waktu_mulai";
     public static final String KEY_WAKTUSELESAI = "waktu_selesai";
     public static final String SUCCESS = "success";
