@@ -11,6 +11,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -49,7 +51,8 @@ public class Forum extends AppCompatActivity {
     Calendar calendar;
     TextView tvHariTglForum, vMatkulForum, vKodeMatkulForum, vDosenForum;
     String dayName, sNim, sMatkulForum, sKodeMatkulForum, sDosenForum;
-    ProgressDialog loadingForum;
+    EditText edJudulTopik, edIsiTopik;
+    ProgressDialog loadingForum, loadingTopik;
 
     public final static String FORUM_MESSAGE1 = "com.galihpw.judulforum";
     public final static String FORUM_MESSAGE2 = "com.galihpw.isiforum";
@@ -58,8 +61,10 @@ public class Forum extends AppCompatActivity {
     ArrayAdapter adapter;
     private ArrayList<String> items = new ArrayList<>();
     private Topik[] mTopik;
+    Dialog dia;
 
     private static String url_gTopik = Config.URL + "getTopik.php";
+    private static String url_iTopik = Config.URL + "insertTopik.php";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,6 +86,8 @@ public class Forum extends AppCompatActivity {
         vMatkulForum = (TextView) findViewById(R.id.tvMatkulForum);
         vKodeMatkulForum = (TextView) findViewById(R.id.tvKodeMatkulForum);
         vDosenForum = (TextView) findViewById(R.id.tvNamaDosenForum);
+        edJudulTopik = (EditText) findViewById(R.id.etJudul);
+        edIsiTopik = (EditText) findViewById(R.id.etDesk);
 
         tvHariTglForum = (TextView) findViewById(R.id.tvHariTglForum);
         calendar = Calendar.getInstance();
@@ -202,14 +209,72 @@ public class Forum extends AppCompatActivity {
         });
     }
 
-    Dialog dia;
-
     public void cobaCustomDialog() {
         dia = new Dialog(Forum.this);
         dia.setContentView(R.layout.dialog_forum);
         dia.setTitle("Tambah Topik");
         dia.setCancelable(true);
         dia.show();
+
+        Button but = (Button) dia.findViewById(R.id.btnbat);
+        but.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dia.dismiss(); //keluar dialog
+            }
+        });
+
+        Button bin = (Button) dia.findViewById(R.id.btnsim);
+        bin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                insertTopik();
+                dia.dismiss();
+            }
+        });
+    }
+
+    private void insertTopik(){
+        loadingTopik = ProgressDialog.show(this, "Please wait...", "Updating Data...", false, false);
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, url_iTopik, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                try {
+                    JSONObject jObj = new JSONObject(response);
+                    int success = jObj.getInt(Config.SUCCESS);
+                    if (success==1) {
+                        loadingTopik.dismiss();
+                        Toast.makeText(Forum.this, "Success", Toast.LENGTH_SHORT).show();
+                        getDataForum();
+                    } else {
+                        loadingTopik.dismiss();
+                        Toast.makeText(Forum.this, "Data not update", Toast.LENGTH_SHORT).show();
+                    }
+                }catch(JSONException e){
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                loadingTopik.dismiss();
+                Toast.makeText(Forum.this, "No connection", Toast.LENGTH_SHORT).show();
+            }
+        }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError{
+                Map<String, String> params = new HashMap<>();
+                params.put(Config.KEY_NIM, sNim);
+                params.put(Config.KEY_KODEMATKUL, sKodeMatkulForum);
+                params.put(Config.KEY_JUDUL, edJudulTopik.getText().toString());
+                params.put(Config.KEY_ISITOPIK, edIsiTopik.getText().toString());
+                return params;
+            }
+
+        };
+
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(stringRequest);
     }
 
 }

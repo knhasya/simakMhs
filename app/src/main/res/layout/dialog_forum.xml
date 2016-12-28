@@ -60,7 +60,8 @@
         android:id="@+id/btnbat"
         android:layout_below="@+id/etDesk"
         android:layout_toLeftOf="@+id/btnsim"
-        android:layout_toStartOf="@+id/btnsim" />
+        android:layout_toStartOf="@+id/btnsim"
+        android:layout_marginBottom="15dp" />
 
     <Button
         android:text="Simpan"
