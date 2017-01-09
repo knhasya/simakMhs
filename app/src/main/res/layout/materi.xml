@@ -11,7 +11,7 @@
         android:layout_marginLeft="52dp"
         android:layout_marginStart="52dp"
         android:layout_marginTop="35dp"
-        android:id="@+id/tvMatkulCat"
+        android:id="@+id/tvMatkulMateri"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
@@ -20,44 +20,45 @@
         android:text="Nama Dosen"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/tvNamaDosenCat"
-        android:layout_below="@+id/tvMatkulCat"
-        android:layout_alignLeft="@+id/tvMatkulCat"
-        android:layout_alignStart="@+id/tvMatkulCat" />
+        android:id="@+id/tvNamaDosenMateri"
+        android:layout_below="@+id/tvMatkulMateri"
+        android:layout_alignLeft="@+id/tvMatkulMateri"
+        android:layout_alignStart="@+id/tvMatkulMateri" />
 
     <TextView
         android:text="Hari, Tanggal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/tvHariTglCat"
+        android:id="@+id/tvHariTglMateri"
         android:layout_marginRight="58dp"
         android:layout_marginEnd="58dp"
-        android:layout_alignBaseline="@+id/tvKodeMatkulCat"
-        android:layout_alignBottom="@+id/tvKodeMatkulCat"
+        android:layout_alignBaseline="@+id/tvKodeMatkulMateri"
+        android:layout_alignBottom="@+id/tvKodeMatkulMateri"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true" />
 
     <ListView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/tvNamaDosenCat"
+        android:layout_below="@+id/tvNamaDosenMateri"
         android:layout_marginTop="22dp"
-        android:layout_alignLeft="@+id/tvNamaDosenCat"
-        android:layout_alignStart="@+id/tvNamaDosenCat"
-        android:layout_alignRight="@+id/tvHariTglCat"
-        android:layout_alignEnd="@+id/tvHariTglCat"
+        android:layout_alignLeft="@+id/tvNamaDosenMateri"
+        android:layout_alignStart="@+id/tvNamaDosenMateri"
+        android:layout_alignRight="@+id/tvHariTglMateri"
+        android:layout_alignEnd="@+id/tvHariTglMateri"
         android:layout_marginBottom="15dp"
-        android:id="@+id/listviewCat"
+        android:id="@+id/listviewMateri"
         android:divider="@color/colorPrimary"
         android:dividerHeight="1dp"
-        android:listSelector="@color/colorAccent" />
+        android:listSelector="@color/colorAccent"/>
 
     <TextView
         android:text="(Kode Mata Kuliah)"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/tvKodeMatkulCat"
-        android:layout_above="@+id/tvNamaDosenCat"
-        android:layout_toRightOf="@+id/tvMatkulCat"
-        android:layout_toEndOf="@+id/tvMatkulCat" />
+        android:id="@+id/tvKodeMatkulMateri"
+        android:layout_above="@+id/tvNamaDosenMateri"
+        android:layout_toRightOf="@+id/tvMatkulMateri"
+        android:layout_toEndOf="@+id/tvMatkulMateri" />
+
 </RelativeLayout>

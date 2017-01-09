@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Base64;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -24,6 +25,7 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.ImageRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.galihpw.simakmhs.config.Config;
@@ -38,11 +40,14 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.Hashtable;
 import java.util.Map;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
 import static com.galihpw.simakmhs.MainActivity.MAIN_MESSAGE;
+import static com.galihpw.simakmhs.config.Config.KEY_NIM;
+import static com.galihpw.simakmhs.config.Config.KEY_PHOTO;
 
 public class ProfileMhs extends AppCompatActivity {
 
@@ -53,9 +58,11 @@ public class ProfileMhs extends AppCompatActivity {
     EditText edAlamat, edKontak, edEmail, edFB, edTW;
 
     ProgressDialog loadingMhs;
+    Bitmap bitmap;
 
     private static String url_gMhs = Config.URL + "getMhs.php";
     private static String url_uMhs = Config.URL + "updateMhs.php";
+    private static String UPLOAD_URL = Config.URL + "uploadPhoto.php";
 
     static final int REQUEST_CAMERA = 0;
     static final int SELECT_FILE = 1;
@@ -95,7 +102,8 @@ public class ProfileMhs extends AppCompatActivity {
         edFB = (EditText) findViewById(R.id.edit_facebook);
         edTW = (EditText) findViewById(R.id.edit_twitter);
 
-        getData();
+        loadingMhs = ProgressDialog.show(this, "Please wait...", "Fetching...", false, false);
+        getPhoto();
 
         imgProfile = (CircleImageView) findViewById(R.id.imgProfile);
         imgProfile.setImageResource(R.drawable.foto);
@@ -119,8 +127,8 @@ public class ProfileMhs extends AppCompatActivity {
         saveProf.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                saveProf();
                 updateData();
+                saveProf();
             }
         });
 
@@ -203,8 +211,6 @@ public class ProfileMhs extends AppCompatActivity {
         vEmail.setText(edEmail.getText().toString());
         vFB.setText(edFB.getText().toString());
         vTW.setText(edTW.getText().toString());
-
-        updateData();
     }
 
     public void switchProf(){
@@ -261,9 +267,9 @@ public class ProfileMhs extends AppCompatActivity {
     }
 
     private void onCaptureImageResult(Intent data) {
-        Bitmap thumbnail = (Bitmap) data.getExtras().get("data");
+        bitmap = (Bitmap) data.getExtras().get("data");
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-        thumbnail.compress(Bitmap.CompressFormat.JPEG, 90, bytes);
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
         File destination = new File(Environment.getExternalStorageDirectory(),
                 System.currentTimeMillis() + ".jpg");
         FileOutputStream fo;
@@ -277,24 +283,105 @@ public class ProfileMhs extends AppCompatActivity {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        imgProfile.setImageBitmap(thumbnail);
+        uploadPhoto();
+        //imgProfile.setImageBitmap(thumbnail);
     }
 
     @SuppressWarnings("deprecation")
     private void onSelectFromGalleryResult(Intent data) {
-        Bitmap bm=null;
+        bitmap=null;
         if (data != null) {
             try {
-                bm = MediaStore.Images.Media.getBitmap(getApplicationContext().getContentResolver(), data.getData());
+                bitmap = MediaStore.Images.Media.getBitmap(getApplicationContext().getContentResolver(), data.getData());
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
-        imgProfile.setImageBitmap(bm);
+        uploadPhoto();
+        //imgProfile.setImageBitmap(bm);
+    }
+
+    public String getStringImage(Bitmap bmp){
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bmp.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+        byte[] imageBytes = baos.toByteArray();
+        String encodedImage = Base64.encodeToString(imageBytes, Base64.DEFAULT);
+        return encodedImage;
+    }
+
+    private void uploadPhoto(){
+        //Showing the progress dialog
+        final ProgressDialog loading = ProgressDialog.show(this,"Uploading...","Please wait...",false,false);
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, UPLOAD_URL,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String s) {
+                        //Disimissing the progress dialog
+                        loading.dismiss();
+                        //Showing toast message of the response
+                        Toast.makeText(ProfileMhs.this, s , Toast.LENGTH_LONG).show();
+                        //Get photo from database
+                        getPhoto();
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError volleyError) {
+                        //Dismissing the progress dialog
+                        loading.dismiss();
+
+                        //Showing toast
+                        Toast.makeText(ProfileMhs.this, volleyError.getMessage().toString(), Toast.LENGTH_LONG).show();
+                    }
+                }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                //Converting Bitmap to String
+                String photo = getStringImage(bitmap);
+
+                //Creating parameters
+                Map<String,String> params = new Hashtable<String, String>();
+
+                //Adding parameters
+                params.put(KEY_PHOTO, photo);
+                params.put(KEY_NIM, nim);
+
+                //returning parameters
+                return params;
+            }
+        };
+
+        //Creating a Request Queue
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+
+        //Adding request to the queue
+        requestQueue.add(stringRequest);
+    }
+
+    private void getPhoto(){
+        String url = ""+Config.URL+"photo/"+nim+".png";
+
+        // Retrieves an image specified by the URL, displays it in the UI.
+        ImageRequest request = new ImageRequest(url,
+                new Response.Listener<Bitmap>() {
+                    @Override
+                    public void onResponse(Bitmap bitmap) {
+                        imgProfile.setImageBitmap(bitmap);
+                        getData();
+                    }
+                }, 0, 0, null,
+                new Response.ErrorListener() {
+                    public void onErrorResponse(VolleyError error) {
+                        imgProfile.setImageResource(R.drawable.default_profile);
+                        getData();
+                    }
+                });
+        // Access the RequestQueue through your singleton class.
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(request);
     }
 
     private void getData(){
-        loadingMhs = ProgressDialog.show(this, "Please wait...", "Fetching...", false, false);
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url_gMhs, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -310,7 +397,7 @@ public class ProfileMhs extends AppCompatActivity {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError{
                 Map<String, String> params = new HashMap<>();
-                params.put(Config.KEY_NIM, nim);
+                params.put(KEY_NIM, nim);
                 return params;
             }
         };
@@ -323,11 +410,10 @@ public class ProfileMhs extends AppCompatActivity {
             JSONObject jsonObject = new JSONObject(response);
             JSONArray result = jsonObject.getJSONArray(Config.JSON_ARRAY);
             JSONObject data = result.getJSONObject(0);
-            sNim = data.getString(Config.KEY_NIM);
+            sNim = data.getString(KEY_NIM);
             sNama = data.getString(Config.KEY_NAMA);
             sKelas = data.getString(Config.KEY_KELAS);
             sKontak = data.getString(Config.KEY_KONTAK);
-            sBintang = data.getInt(Config.KEY_BINTANG);
             sAlamat = data.getString(Config.KEY_ALAMAT);
             sEmail = data.getString(Config.KEY_EMAIL);
             sTW = data.getString(Config.KEY_TW);
@@ -341,7 +427,6 @@ public class ProfileMhs extends AppCompatActivity {
         vNama.setText(sNama);
         vKelas.setText(sKelas);
         vKontak.setText(sKontak);
-        vBintang.setText(sBintang.toString());
         vAlamat.setText(sAlamat);
         vEmail.setText(sEmail);
         vTW.setText(sTW);
@@ -353,13 +438,19 @@ public class ProfileMhs extends AppCompatActivity {
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url_uMhs, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                if(response.equalsIgnoreCase(Config.SUCCESS)){
-                    loadingMhs.dismiss();
-                    switchProf();
-                    Toast.makeText(ProfileMhs.this, "Success", Toast.LENGTH_SHORT).show();
-                }else{
-                    loadingMhs.dismiss();
-                    Toast.makeText(ProfileMhs.this, "Data not update", Toast.LENGTH_SHORT).show();
+                try{
+                    JSONObject jObj = new JSONObject(response);
+                    int success = jObj.getInt(Config.SUCCESS);
+                    if(success==1){
+                        loadingMhs.dismiss();
+                        switchProf();
+                        Toast.makeText(ProfileMhs.this, "Success", Toast.LENGTH_SHORT).show();
+                    }else{
+                        loadingMhs.dismiss();
+                        Toast.makeText(ProfileMhs.this, "Data not update", Toast.LENGTH_SHORT).show();
+                    }
+                }catch(JSONException e){
+                    e.printStackTrace();
                 }
             }
         }, new Response.ErrorListener() {
@@ -372,7 +463,7 @@ public class ProfileMhs extends AppCompatActivity {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError{
                 Map<String, String> params = new HashMap<>();
-                params.put(Config.KEY_NIM, nim);
+                params.put(KEY_NIM, nim);
                 params.put(Config.KEY_ALAMAT, edAlamat.getText().toString());
                 params.put(Config.KEY_KONTAK, edKontak.getText().toString());
                 params.put(Config.KEY_EMAIL, edEmail.getText().toString());

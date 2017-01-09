@@ -224,7 +224,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(LoginActivity.this, error.getMessage().toString(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(LoginActivity.this, error.getMessage(), Toast.LENGTH_SHORT).show();
             }
         }){
             @Override
@@ -265,8 +265,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     for(int i = 0;i < result.length();i++){
                         JSONObject Data = result.getJSONObject(i);
                         String nimkontrak = Data.getString(Config.KEY_NIM);
-                        //int inimkontrak = Integer.valueOf(nimkontrak);
-                        //Log.v("tes1","Masuuuuuuuuuuuuuuuuuuuuuk "+nimkontrak);
                         if(nimmm.equals(nimkontrak)){
                             status=1;
                         }

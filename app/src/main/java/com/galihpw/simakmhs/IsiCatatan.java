@@ -31,7 +31,7 @@ public class IsiCatatan extends AppCompatActivity {
         sJudulCat = intent.getStringExtra(CATATAN_MESSAGE1);
         sIsiCat = intent.getStringExtra(CATATAN_MESSAGE2);
 
-        tvJudulCat.setText("Resume pertemuan ke: " + sJudulCat);
+        tvJudulCat.setText("Catatan pertemuan ke: " + sJudulCat);
         tvIsiCat.setText(sIsiCat);
     }
 

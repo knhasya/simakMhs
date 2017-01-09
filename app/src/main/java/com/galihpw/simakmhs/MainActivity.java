@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -15,6 +16,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,6 +25,7 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.ImageRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.galihpw.simakmhs.config.Config;
@@ -44,11 +47,10 @@ import static com.galihpw.simakmhs.LoginActivity.LOGIN_MESSAGE3;
 
 public class MainActivity extends AppCompatActivity {
 
-    CircleImageView imageView2;
+    ImageView imageView2;
     TextView vNim, vNama, vBintang, tvHariTgl, vMatkul, vKodeMatkul, vDosen;
     String sNim, sNama, nim, sMatkul, sKodeMatkul, sDosen, dayName, sPertemuan;
     EditText edResume;
-    Integer sBintang;
     Calendar calendar;
     int status = 0;
     Button updateProf, saveProf;
@@ -64,6 +66,7 @@ public class MainActivity extends AppCompatActivity {
     private static String url_gBintang = Config.URL + "getBintang.php";
     private static String url_iResume = Config.URL + "insertResume.php";
     private static String url_uResume = Config.URL + "updateResume.php";
+    private static String url_logout = Config.URL + "logoutMhs.php";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,7 +79,7 @@ public class MainActivity extends AppCompatActivity {
         sKodeMatkul = intent.getStringExtra(LOGIN_MESSAGE2);
         sDosen = intent.getStringExtra(LOGIN_MESSAGE3);
 
-        //imageView2 = (CircleImageView) findViewById(R.id.imageView2);
+        imageView2 = (ImageView) findViewById(R.id.imageView2);
         //imageView2.setImageResource(R.drawable.default_profile);
         vNim = (TextView) findViewById(R.id.tvNimAM);
         vNama = (TextView) findViewById(R.id.tvNamaAM);
@@ -123,7 +126,7 @@ public class MainActivity extends AppCompatActivity {
         }
         tvHariTgl.setText("" + dayName + ", " + currentDate + "");
 
-        getData();
+        getPhoto();
 
         updateProf = (Button) findViewById(R.id.btnPerbaharui);
         saveProf = (Button) findViewById(R.id.btnSubmit);
@@ -178,6 +181,15 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent3);
 
                 return true;
+            case R.id.menu_materi:
+                Intent intent5 = new Intent( this , Materi.class );
+                intent5.putExtra(MAIN_MESSAGE1,sMatkul);
+                intent5.putExtra(MAIN_MESSAGE2,sKodeMatkul);
+                intent5.putExtra(MAIN_MESSAGE3,sDosen);
+                intent5.putExtra(MAIN_MESSAGE, nim);
+                startActivity(intent5);
+
+                return true;
             case R.id.menu_logout:
                 logout();
                 return true;
@@ -208,6 +220,8 @@ public class MainActivity extends AppCompatActivity {
 
                         //Saving the sharedpreferences
                         editor.commit();
+
+                        logoutMhs();
 
                         //Starting login activity
                         Intent intent = new Intent(MainActivity.this, LoginActivity.class);
@@ -444,6 +458,56 @@ public class MainActivity extends AppCompatActivity {
                 params.put(Config.KEY_KODEMATKUL, sKodeMatkul);
                 return params;
             }
+        };
+
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(stringRequest);
+    }
+
+    private void getPhoto(){
+        String url = ""+Config.URL+"photo/"+nim+".png";
+
+        // Retrieves an image specified by the URL, displays it in the UI.
+        ImageRequest request = new ImageRequest(url,
+                new Response.Listener<Bitmap>() {
+                    @Override
+                    public void onResponse(Bitmap bitmap) {
+                        imageView2.setImageBitmap(bitmap);
+                        getData();
+                    }
+                }, 0, 0, null,
+                new Response.ErrorListener() {
+                    public void onErrorResponse(VolleyError error) {
+                        imageView2.setImageResource(R.drawable.default_profile);
+                        getData();
+                    }
+                });
+        // Access the RequestQueue through your singleton class.
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(request);
+    }
+
+    private void logoutMhs(){
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, url_logout, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                if(response.equalsIgnoreCase(Config.SUCCESS)){
+                    Toast.makeText(MainActivity.this, "Logout Success", Toast.LENGTH_SHORT).show();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(MainActivity.this, "No connection", Toast.LENGTH_SHORT).show();
+            }
+        }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError{
+                Map<String, String> params = new HashMap<>();
+                params.put(Config.KEY_NIM, sNim);
+                return params;
+            }
+
         };
 
         RequestQueue requestQueue = Volley.newRequestQueue(this);

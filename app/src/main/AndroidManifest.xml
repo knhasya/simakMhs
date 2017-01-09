@@ -51,6 +51,10 @@
             android:label="Forum"
             android:screenOrientation="landscape" />
         <activity
+            android:name=".Materi"
+            android:label="Materi"
+            android:screenOrientation="landscape" />
+        <activity
             android:name=".IsiForum"
             android:label="Isi Forum"
             android:screenOrientation="landscape" />

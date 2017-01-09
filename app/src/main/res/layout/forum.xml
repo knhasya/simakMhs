@@ -47,7 +47,10 @@
         android:layout_alignRight="@+id/tvHariTglForum"
         android:layout_alignEnd="@+id/tvHariTglForum"
         android:layout_marginBottom="15dp"
-        android:id="@+id/listviewForum" />
+        android:id="@+id/listviewForum"
+        android:divider="@color/colorPrimary"
+        android:dividerHeight="1dp"
+        android:listSelector="@color/colorAccent"/>
 
     <TextView
         android:text="(Kode Mata Kuliah)"

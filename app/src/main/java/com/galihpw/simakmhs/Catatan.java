@@ -189,7 +189,7 @@ public class Catatan extends AppCompatActivity {
                 Resume data = new Resume("" + Data.getString(Config.KEY_PERTEMUAN), "" + Data.getString(Config.KEY_RESUME));
                 mResume[i] = data;
 
-                items.add("Resume pertemuan ke: " + mResume[i].getJudulCat());
+                items.add("Catatan pertemuan ke: " + mResume[i].getJudulCat());
             }
 
 

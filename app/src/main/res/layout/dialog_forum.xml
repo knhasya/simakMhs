@@ -51,25 +51,25 @@
         android:layout_alignStart="@+id/etJudul"
         android:layout_marginRight="40dp"
         android:layout_marginEnd="40dp"
-        android:id="@+id/etDesk" />
+        android:id="@+id/etKomentar" />
 
     <Button
         android:text="Batal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/btnbat"
-        android:layout_below="@+id/etDesk"
-        android:layout_toLeftOf="@+id/btnsim"
-        android:layout_toStartOf="@+id/btnsim"
+        android:layout_below="@+id/etKomentar"
+        android:layout_toLeftOf="@+id/btnsimkom"
+        android:layout_toStartOf="@+id/btnsimkom"
         android:layout_marginBottom="15dp" />
 
     <Button
         android:text="Simpan"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/btnsim"
-        android:layout_below="@+id/etDesk"
-        android:layout_alignRight="@+id/etDesk"
-        android:layout_alignEnd="@+id/etDesk" />
+        android:id="@+id/btnsimkom"
+        android:layout_below="@+id/etKomentar"
+        android:layout_alignRight="@+id/etKomentar"
+        android:layout_alignEnd="@+id/etKomentar" />
 
 </RelativeLayout>

@@ -50,12 +50,15 @@ public class Forum extends AppCompatActivity {
 
     Calendar calendar;
     TextView tvHariTglForum, vMatkulForum, vKodeMatkulForum, vDosenForum;
-    String dayName, sNim, sMatkulForum, sKodeMatkulForum, sDosenForum;
+    String dayName, sNim, sMatkulForum, sKodeMatkulForum, sDosenForum, sNama;
     EditText edJudulTopik, edIsiTopik;
     ProgressDialog loadingForum, loadingTopik;
 
     public final static String FORUM_MESSAGE1 = "com.galihpw.judulforum";
     public final static String FORUM_MESSAGE2 = "com.galihpw.isiforum";
+    public final static String FORUM_MESSAGE3 = "com.galihpw.nimforum";
+    public final static String FORUM_MESSAGE4 = "com.galihpw.idtopik";
+    public final static String FORUM_MESSAGE5 = "com.galihpw.nama";
 
     ListView listForum;
     ArrayAdapter adapter;
@@ -86,8 +89,7 @@ public class Forum extends AppCompatActivity {
         vMatkulForum = (TextView) findViewById(R.id.tvMatkulForum);
         vKodeMatkulForum = (TextView) findViewById(R.id.tvKodeMatkulForum);
         vDosenForum = (TextView) findViewById(R.id.tvNamaDosenForum);
-        edJudulTopik = (EditText) findViewById(R.id.etJudul);
-        edIsiTopik = (EditText) findViewById(R.id.etDesk);
+
 
         tvHariTglForum = (TextView) findViewById(R.id.tvHariTglForum);
         calendar = Calendar.getInstance();
@@ -141,8 +143,7 @@ public class Forum extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.tambah_topik:
-                Toast.makeText(Forum.this, "HAAAAAI", Toast.LENGTH_SHORT).show();
-                cobaCustomDialog();
+                TambahTopikDialog();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -183,10 +184,10 @@ public class Forum extends AppCompatActivity {
             mTopik = new Topik[result.length()];
             for(int i = 0;i < result.length();i++){
                 JSONObject Data = result.getJSONObject(i);
-                Topik data = new Topik("" + Data.getString(Config.KEY_JUDUL), "" + Data.getString(Config.KEY_ISITOPIK));
+                Topik data = new Topik("" + Data.getString(Config.KEY_JUDUL), "" + Data.getString(Config.KEY_ISITOPIK), "" + Data.getString(Config.KEY_IDTOPIK), "" + Data.getString(Config.KEY_NAMA));
                 mTopik[i] = data;
 
-                items.add("Cek: " + mTopik[i].getJudulForum());
+                items.add(mTopik[i].getJudulForum());
             }
 
 
@@ -204,17 +205,23 @@ public class Forum extends AppCompatActivity {
                 Intent intent = new Intent(Forum.this , IsiForum.class );
                 intent.putExtra(FORUM_MESSAGE1, "" + mTopik[position].getJudulForum());
                 intent.putExtra(FORUM_MESSAGE2, "" + mTopik[position].getIsiForum());
+                intent.putExtra(FORUM_MESSAGE4, "" + mTopik[position].getIdTopik());
+                intent.putExtra(FORUM_MESSAGE3, sNim);
+                intent.putExtra(FORUM_MESSAGE5, "" + mTopik[position].getNamaForum());
                 startActivity(intent);
             }
         });
     }
 
-    public void cobaCustomDialog() {
+    public void TambahTopikDialog() {
         dia = new Dialog(Forum.this);
         dia.setContentView(R.layout.dialog_forum);
         dia.setTitle("Tambah Topik");
         dia.setCancelable(true);
         dia.show();
+
+        edJudulTopik = (EditText) dia.findViewById(R.id.etJudul);
+        edIsiTopik = (EditText) dia.findViewById(R.id.etKomentar);
 
         Button but = (Button) dia.findViewById(R.id.btnbat);
         but.setOnClickListener(new View.OnClickListener() {
@@ -224,11 +231,14 @@ public class Forum extends AppCompatActivity {
             }
         });
 
-        Button bin = (Button) dia.findViewById(R.id.btnsim);
+        Button bin = (Button) dia.findViewById(R.id.btnsimkom);
         bin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                items.clear();
                 insertTopik();
+                //Log.v("tes judul", edJudulTopik.getText().toString());
+                //Log.v("tes isi", edIsiTopik.getText().toString());
                 dia.dismiss();
             }
         });
@@ -265,9 +275,13 @@ public class Forum extends AppCompatActivity {
             protected Map<String, String> getParams() throws AuthFailureError{
                 Map<String, String> params = new HashMap<>();
                 params.put(Config.KEY_NIM, sNim);
+                //Log.v("tes nim",sNim);
                 params.put(Config.KEY_KODEMATKUL, sKodeMatkulForum);
+                //Log.v("tes kodeMat",sKodeMatkulForum);
                 params.put(Config.KEY_JUDUL, edJudulTopik.getText().toString());
+                //Log.v("tes judul",edJudulTopik.getText().toString());
                 params.put(Config.KEY_ISITOPIK, edIsiTopik.getText().toString());
+                //Log.v("tes isi",edIsiTopik.getText().toString());
                 return params;
             }
 

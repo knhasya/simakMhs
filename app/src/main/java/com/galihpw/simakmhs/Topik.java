@@ -8,6 +8,16 @@ public class Topik {
 
     private String judulForum;
     private String isiForum;
+    private String idTopik;
+    private String namaForum;
+
+    public String getIdTopik() {
+        return idTopik;
+    }
+
+    public void setIdTopik(String idTopik) {
+        this.idTopik = idTopik;
+    }
 
     public String getJudulForum() {
         return judulForum;
@@ -25,9 +35,19 @@ public class Topik {
         this.isiForum = isiForum;
     }
 
-    public Topik(String judulForum, String isiForum){
+    public String getNamaForum() {
+        return namaForum;
+    }
+
+    public void setNamaForum(String namaForum) {
+        this.namaForum = namaForum;
+    }
+
+    public Topik(String judulForum, String isiForum, String idTopik, String namaForum){
         this.judulForum = judulForum;
         this.isiForum = isiForum;
+        this.idTopik = idTopik;
+        this.namaForum = namaForum;
     }
 
 
