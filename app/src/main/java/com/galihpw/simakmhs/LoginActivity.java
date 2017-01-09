@@ -49,6 +49,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     private static String url_gJadwal = Config.URL + "getJadwalMhs.php";
     private static String url_gKontrak = Config.URL + "getKontrak.php";
+    private static String url_gStatus = Config.URL + "getStatus.php";
     public final static String LOGIN_MESSAGE = "com.galihpw.simak";
     public final static String LOGIN_MESSAGE1 = "com.galihpw.matkul";
     public final static String LOGIN_MESSAGE2 = "com.galihpw.kodematkul";
@@ -189,6 +190,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 Map<String,String> params = new HashMap<>();
                 //Adding parameters to request
                 params.put(Config.KEY_NIM, nim);
+                params.put(Config.KEY_NAMADOSEN, sDosen);
 
                 //returning parameter
                 return params;
@@ -327,5 +329,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     }
                 }, 3000);*/
     }
+
 
 }
