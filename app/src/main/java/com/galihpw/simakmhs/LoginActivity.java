@@ -38,18 +38,11 @@ import java.util.Map;
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener{
     //Defining views
     private EditText editTextNip;
-    private Button buttonLogin;
     public ProgressDialog progressDialog;
 
-    //boolean variable to check user is logged in or not
-    //initially it is false
-    private boolean loggedIn = false;
     String nim, nimm, nimmm, waktuMulai, waktuSelesai, dayName, sKodeMatkul, komat, mat, dos, sMatkul, sDosen;
     Calendar calendar;
 
-    private static String url_gJadwal = Config.URL + "getJadwalMhs.php";
-    private static String url_gKontrak = Config.URL + "getKontrak.php";
-    private static String url_gStatus = Config.URL + "getStatus.php";
     public final static String LOGIN_MESSAGE = "com.galihpw.simak";
     public final static String LOGIN_MESSAGE1 = "com.galihpw.matkul";
     public final static String LOGIN_MESSAGE2 = "com.galihpw.kodematkul";
@@ -63,16 +56,18 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         //Initializing views
         editTextNip = (EditText) findViewById(R.id.un);
 
-        buttonLogin = (Button) findViewById(R.id.login_btn);
+        Button buttonLogin = (Button) findViewById(R.id.login_btn);
 
         //Adding click listener
-        buttonLogin.setOnClickListener(this);
+        if (buttonLogin != null) {
+            buttonLogin.setOnClickListener(this);
+        }
 
         calendar = Calendar.getInstance();
-        SimpleDateFormat adf = new SimpleDateFormat("dd-MMM-yyyy");
+        SimpleDateFormat adf = new SimpleDateFormat("dd-MMM-yyyy", Locale.US);
         String currentDate = adf.format(calendar.getTime());
 
-        SimpleDateFormat adf_ = new SimpleDateFormat("EEEE");
+        SimpleDateFormat adf_ = new SimpleDateFormat("EEEE", Locale.US);
         Date date = new Date();
         dayName = adf_.format(date);
         switch(dayName){
@@ -109,7 +104,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         SharedPreferences sharedPreferences = getSharedPreferences(Config.SHARED_PREF_NAME,Context.MODE_PRIVATE);
 
         //Fetching the boolean value form sharedpreferences
-        loggedIn = sharedPreferences.getBoolean(Config.LOGGEDIN_SHARED_PREF, false);
+        boolean loggedIn = sharedPreferences.getBoolean(Config.LOGGEDIN_SHARED_PREF, false);
         nimm = sharedPreferences.getString(Config.NIM_SHARED_PREF, nim);
         mat = sharedPreferences.getString(Config.MATKUL_SHARED_PREF, sMatkul);
         komat = sharedPreferences.getString(Config.KMATKUL_SHARED_PREF, sKodeMatkul);
@@ -154,7 +149,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                             editor.putString(Config.DOSEN_SHARED_PREF, sDosen);
 
                             //Saving values to editor
-                            editor.commit();
+                            editor.apply();
 
                             progressDialog.dismiss();
 
@@ -217,7 +212,21 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         return valid;
     }
 
+    //Compare Time
+    public static final String inputFormat = "HH:mm";
+
+    SimpleDateFormat inputParser = new SimpleDateFormat(inputFormat, Locale.US);
+
+    private Date parseDate(String date){
+        try{
+            return inputParser.parse(date);
+        }catch(java.text.ParseException e){
+            return new Date(0);
+        }
+    }
+
     private void getJadwal(){
+        String url_gJadwal = Config.URL + "getJadwalMhs.php";
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url_gJadwal, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -242,15 +251,33 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     }
 
     private void showJSON2(String response){
+        Calendar now = Calendar.getInstance();
+
+        int hour = now.get(Calendar.HOUR);
+        int minute =  now.get(Calendar.MINUTE);
+
         try{
             JSONObject jsonObject = new JSONObject(response);
             JSONArray result = jsonObject.getJSONArray(Config.JSON_ARRAY);
-            JSONObject data = result.getJSONObject(0);
-            waktuMulai = data.getString(Config.KEY_WAKTUMULAI);
-            waktuSelesai = data.getString(Config.KEY_WAKTUSELESAI);
-            sKodeMatkul = data.getString(Config.KEY_KODEMATKUL);
-            sMatkul = data.getString(Config.KEY_MATKUL);
-            sDosen = data.getString(Config.KEY_NAMADOSEN);
+
+            Date date = parseDate(hour + ":" + minute);
+
+            for(int i=0; i<result.length(); i++){
+                JSONObject data = result.getJSONObject(i);
+                waktuMulai = data.getString(Config.KEY_WAKTUMULAI);
+                waktuSelesai = data.getString(Config.KEY_WAKTUSELESAI);
+
+                Date dateCompareOne = parseDate(waktuMulai);
+                Date dateCompareTwo = parseDate(waktuSelesai);
+
+                if(dateCompareOne.before(date) && dateCompareTwo.after(date)){
+                    Log.v("hai", "masuuuuuuuuuuuukk");
+
+                    sKodeMatkul = data.getString(Config.KEY_KODEMATKUL);
+                    sMatkul = data.getString(Config.KEY_MATKUL);
+                    sDosen = data.getString(Config.KEY_NAMADOSEN);
+                }
+            }
 
         }catch (JSONException e){
             e.printStackTrace();
@@ -258,6 +285,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     }
 
     private void getKontrak(){
+        String url_gKontrak = Config.URL + "getKontrak.php";
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url_gKontrak, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -286,7 +314,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(LoginActivity.this, error.getMessage().toString(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(LoginActivity.this, error.getMessage(), Toast.LENGTH_SHORT).show();
             }
         }){
             @Override
@@ -329,6 +357,5 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     }
                 }, 3000);*/
     }
-
 
 }
